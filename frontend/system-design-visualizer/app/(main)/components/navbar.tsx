@@ -91,7 +91,7 @@ const Navbar = () => {
 
                 transition
 
-                hover:text-white
+                hover:text-accent
                 "
             >
               {item.name}
@@ -167,7 +167,7 @@ const Navbar = () => {
 
                 text-text-secondary
 
-                hover:text-white
+                hover:text-accent
                 "
             >
               {item.name}

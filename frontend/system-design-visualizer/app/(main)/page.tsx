@@ -1,5 +1,6 @@
 import MainBody from "./components/mainBody";
 import Navbar from "./components/navbar";
+import Readytodesing from "./components/readytodesing";
 import WhyEngineersLoveitsec from "./components/whyEngineersLoveitsec";
 
 export default function Home() {
@@ -12,7 +13,7 @@ export default function Home() {
       {/*why engineers love it section*/}
       <WhyEngineersLoveitsec />
       {/*Ready to desing section*/}
-      <div className=""></div>
+      <Readytodesing />
       {/*footer */}
       <div className=""></div>
     </div>
