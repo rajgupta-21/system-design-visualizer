@@ -1,11 +1,21 @@
+import { SESClient } from "@aws-sdk/client-ses";
 import nodemailer from "nodemailer";
+import { nodemailerSesTransport } from "nodemailer-ses-transport";
 
-export const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: false, // true only for 465, false for 587
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+const ses = new SESClient({
+  region: process.env.AWS_REGION!,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
+
+// 👇 create nodemailer transporter using SES
+const transporter = nodemailer.createTransport(
+  nodemailerSesTransport({
+    ses,
+    aws: { region: process.env.AWS_REGION! },
+  }),
+);
+
+export default transporter;

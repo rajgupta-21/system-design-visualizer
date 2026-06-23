@@ -1,4 +1,4 @@
-import { transporter } from "../services/nodemailer.service";
+import transporter from "../services/nodemailer.service";
 
 export const sendEmail = async ({
   to,

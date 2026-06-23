@@ -7,12 +7,12 @@ export const navItems = [
   {
     id: 2,
     name: "Examples",
-    route: "/features",
+    route: "/examples",
   },
   {
     id: 3,
     name: "Templates",
-    route: "/features",
+    route: "/templates",
   },
   {
     id: 4,
@@ -22,6 +22,6 @@ export const navItems = [
   {
     id: 5,
     name: "Docs",
-    route: "/features",
+    route: "/docs",
   },
 ];
