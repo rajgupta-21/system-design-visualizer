@@ -2,8 +2,6 @@ import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import prisma from "../services/prisma.service";
 import { generateToken } from "../utils/generateToken";
-import { sendEmail } from "../utils/sendEmail";
-import { verificationEmailTemplate } from "../utils/verificationEmail";
 
 export const RegisterController = async (req: Request, res: Response) => {
   try {
@@ -49,11 +47,11 @@ export const RegisterController = async (req: Request, res: Response) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    await sendEmail({
-      to: createUser.email,
-      subject: "Verify your email",
-      html: verificationEmailTemplate(verifyUrl),
-    });
+    // await sendEmail({
+    //   to: createUser.email,
+    //   subject: "Verify your email",
+    //   html: verificationEmailTemplate(verifyUrl),
+    // });
 
     return res.status(201).json({
       message: "User registered successfully",

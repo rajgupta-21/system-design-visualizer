@@ -13,7 +13,6 @@ export const LoginController = async (req: Request, res: Response) => {
         action: "failure",
       });
     }
-
     const userExists = await prisma.user.findUnique({
       where: { email },
     });
@@ -24,6 +23,7 @@ export const LoginController = async (req: Request, res: Response) => {
         action: "failure",
       });
     }
+
     const decrypt = await bcrypt.compare(password, userExists.password);
     if (!decrypt) {
       return res
@@ -31,10 +31,7 @@ export const LoginController = async (req: Request, res: Response) => {
         .json({ message: "worng credentials", action: "failure" });
     }
 
-    const token = generateToken({
-      userId: userExists.id,
-      email: userExists.email,
-    });
+    const token = generateToken(userExists);
 
     res.cookie("token", token, {
       httpOnly: true,

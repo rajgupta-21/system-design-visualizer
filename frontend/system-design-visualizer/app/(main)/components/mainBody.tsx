@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const MainBody = () => {
   return (
-    <div className="flex w-full  px-12 py-10">
+    <div className="flex w-full  px-12 py-5">
       {/* Left section */}
       <div className="w-1/2 flex flex-col justify-center">
         {/* Gradient tag header */}

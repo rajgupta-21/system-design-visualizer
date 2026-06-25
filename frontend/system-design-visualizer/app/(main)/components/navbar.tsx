@@ -5,10 +5,12 @@ import { navItems } from "@/app/constants/page";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header
@@ -182,11 +184,22 @@ const Navbar = () => {
             lg:hidden
             "
           >
-            <Button variant="ghost" href="/login">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
               Sign in
             </Button>
 
-            <Button href="/signup">Sign up</Button>
+            <Button
+              onClick={() => {
+                router.push("/signup");
+              }}
+            >
+              Sign up
+            </Button>
           </div>
         </div>
       )}
