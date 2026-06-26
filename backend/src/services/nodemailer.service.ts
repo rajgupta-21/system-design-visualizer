@@ -1,6 +1,6 @@
 import { SESClient } from "@aws-sdk/client-ses";
 import nodemailer from "nodemailer";
-import { nodemailerSesTransport } from "nodemailer-ses-transport";
+import nodemailerSesTransport from "nodemailer-ses-transport";
 
 const ses = new SESClient({
   region: process.env.AWS_REGION!,

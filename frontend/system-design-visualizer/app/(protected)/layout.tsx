@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Sidebar from "./dashboard/components/sidebar";
 
 export default function ProtectedLayout({
   children,
@@ -48,5 +49,12 @@ export default function ProtectedLayout({
     return null;
   }
 
-  return <div>{children}</div>;
+  return (
+    <div className="flex">
+      <div className="">
+        <Sidebar />
+      </div>
+      <div className="w-full p-2 ">{children}</div>
+    </div>
+  );
 }

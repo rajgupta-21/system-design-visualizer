@@ -25,3 +25,34 @@ export const navItems = [
     route: "/docs",
   },
 ];
+
+export const menu = [
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+  },
+  {
+    name: "My Designs",
+    href: "/designs",
+  },
+  {
+    name: "Templates",
+    href: "/templates",
+  },
+  {
+    name: "Visualizer",
+    href: "/visualizer",
+  },
+  {
+    name: "Components",
+    href: "/components",
+  },
+  {
+    name: "AI Assistant",
+    href: "/assistant",
+  },
+  {
+    name: "Settings",
+    href: "/settings",
+  },
+];
