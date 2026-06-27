@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import GenerateRoute from "./routes/ai-generate.route";
 import LoginRoute from "./routes/login.route";
 import RegisterRoute from "./routes/register.route";
 import SessionRouter from "./routes/session.route";
@@ -27,6 +28,8 @@ app.use("/auth", LoginRoute);
 app.use("/auth", RegisterRoute);
 /* user session route*/
 app.use("/auth", SessionRouter);
+/* Design generate route*/
+app.use("/ai", GenerateRoute);
 
 app.get("/", (_, res) => {
   res.json("server is running");

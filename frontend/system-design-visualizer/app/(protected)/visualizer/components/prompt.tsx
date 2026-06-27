@@ -1,20 +1,48 @@
 "use client";
 
+import { AiResponse, DataResponse } from "@/app/types/page";
 import { ArrowUp, Sparkles } from "lucide-react";
 import { useState } from "react";
+import VisualizerCanvas from "./VisualizerCanvas";
 
 const Prompt = () => {
   const [prompt, setPrompt] = useState("");
+  const [hidePrompt, setHidePrompt] = useState<boolean>(false);
+  const [architecture, setArchitecture] = useState<AiResponse>();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!prompt.trim()) return;
 
-    // TODO API integration
-  };
+    try {
+      const response = await fetch("http://localhost:4000/ai/generate", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+        }),
+      });
+      setHidePrompt(true);
 
+      const data: DataResponse = await response.json();
+      setArchitecture(data.Response);
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to generate design");
+      }
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <div
-      className="
+    <>
+      {!hidePrompt && (
+        <div
+          className="
       flex
       py-32
       items-center
@@ -23,10 +51,10 @@ const Prompt = () => {
       relative
       overflow-hidden
       "
-    >
-      {/* Background glow */}
-      <div
-        className="
+        >
+          {/* Background glow */}
+          <div
+            className="
         absolute
         w-125
         h-125
@@ -35,20 +63,20 @@ const Prompt = () => {
         rounded-full
         -top-37.5
         "
-      />
+          />
 
-      <div
-        className="
+          <div
+            className="
         w-full
         max-w-3xl
         relative
         "
-      >
-        {/* Heading */}
+          >
+            {/* Heading */}
 
-        <div className="text-center mb-8">
-          <div
-            className="
+            <div className="text-center mb-8">
+              <div
+                className="
             flex
             justify-center
             items-center
@@ -56,35 +84,35 @@ const Prompt = () => {
             text-purple-400
             mb-4
             "
-          >
-            <Sparkles size={20} />
-            AI System Designer
-          </div>
+              >
+                <Sparkles size={20} />
+                AI System Designer
+              </div>
 
-          <h1
-            className="
+              <h1
+                className="
             text-4xl
             md:text-5xl
             font-bold
             "
-          >
-            Describe what you want to build
-          </h1>
+              >
+                Describe what you want to build
+              </h1>
 
-          <p
-            className="
+              <p
+                className="
             text-zinc-400
             mt-4
             "
-          >
-            Generate system architectures, components and designs using AI.
-          </p>
-        </div>
+              >
+                Generate system architectures, components and designs using AI.
+              </p>
+            </div>
 
-        {/* Prompt Input */}
+            {/* Prompt Input */}
 
-        <div
-          className="
+            <div
+              className="
           relative
           rounded-2xl
           border
@@ -92,14 +120,14 @@ const Prompt = () => {
           bg-white/5
           backdrop-blur-xl
           "
-        >
-          <textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="
+            >
+              <textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="
             Example: Design a scalable ecommerce system like Amazon
             "
-            className="
+                className="
             field-sizing-content
             w-full
             min-h-25
@@ -110,11 +138,11 @@ const Prompt = () => {
             text-white
             placeholder:text-zinc-500
             "
-          />
+              />
 
-          <button
-            onClick={handleSubmit}
-            className="
+              <button
+                onClick={handleSubmit}
+                className="
             absolute
             bottom-4
             right-4
@@ -130,28 +158,28 @@ const Prompt = () => {
             hover:scale-105
             transition
             "
-          >
-            <ArrowUp size={20} />
-          </button>
-        </div>
+              >
+                <ArrowUp size={20} />
+              </button>
+            </div>
 
-        {/* Suggestions */}
+            {/* Suggestions */}
 
-        <div
-          className="
+            <div
+              className="
           mt-5
           flex
           flex-wrap
           gap-3
           justify-center
           "
-        >
-          {["Netflix architecture", "Uber backend", "ChatGPT clone"].map(
-            (item) => (
-              <button
-                key={item}
-                onClick={() => setPrompt(item)}
-                className="
+            >
+              {["Netflix architecture", "Uber backend", "ChatGPT clone"].map(
+                (item) => (
+                  <button
+                    key={item}
+                    onClick={() => setPrompt(item)}
+                    className="
               px-4
               py-2
               rounded-full
@@ -162,14 +190,22 @@ const Prompt = () => {
               text-zinc-300
               hover:bg-white/10
               "
-              >
-                {item}
-              </button>
-            ),
-          )}
+                  >
+                    {item}
+                  </button>
+                ),
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+      {hidePrompt && architecture && (
+        <VisualizerCanvas
+          nodes={architecture.nodes}
+          edges={architecture.edges}
+        />
+      )}
+    </>
   );
 };
 
