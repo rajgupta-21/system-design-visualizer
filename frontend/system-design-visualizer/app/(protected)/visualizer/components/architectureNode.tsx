@@ -1,112 +1,91 @@
 "use client";
 
 import { Handle, Position } from "@xyflow/react";
-import Image from "next/image";
 
 interface ArchitectureNodeProps {
   data: {
     title: string;
     description: string;
+    type: string;
+    typeKey: string;
+    color: string;
     image?: string;
-    color?: string;
-    type?: string;
   };
 }
+const TYPE_EMOJI: Record<string, string> = {
+  client: "🖥️",
+  gateway: "🔀",
+  service: "⚙️",
+  database: "🗄️",
+  cache: "⚡",
+  queue: "📬",
+  worker: "🔧",
+  storage: "📦",
+  cdn: "🌐",
+  external: "🔌",
+  monitoring: "📊",
+  auth: "🔐",
+};
 
 export default function ArchitectureNode({ data }: ArchitectureNodeProps) {
+  const emoji = TYPE_EMOJI[data.typeKey] ?? "⚙️";
+
+  const iconBg = data.color + "22";
+
   return (
     <div
-      className={`
-      w-72
-      rounded-2xl
-      bg-zinc-900/90
-      backdrop-blur-xl
-      border
-      shadow-xl
-      overflow-hidden
-      transition
-      hover:scale-105
-      `}
-      style={{
-        borderColor: data.color || "#8b5cf6",
-      }}
+      style={{ borderColor: data.color }}
+      className="w-56 bg-zinc-900 border-2 rounded-lg overflow-hidden"
     >
-      {/* top color line */}
-      <div
-        className="h-1 w-full"
-        style={{
-          background: data.color || "#8b5cf6",
-        }}
-      />
+      <div style={{ backgroundColor: data.color }} className="h-1 w-full" />
 
-      <div className="p-4">
-        <div className="flex items-center gap-3">
-          {/* Image */}
+      <div className="p-3">
+        <div className="flex items-center gap-2">
           <div
-            className="
-            w-12
-            h-12
-            rounded-xl
-            bg-black
-            flex
-            items-center
-            justify-center
-            overflow-hidden
-            "
+            style={{ backgroundColor: iconBg }}
+            className="w-9 h-9 rounded-md flex items-center justify-center shrink-0 text-base"
           >
-            {data.image ? (
-              <Image src={data.image} width={48} height={48} alt={data.title} />
-            ) : (
-              <span className="text-xl">⚙️</span>
-            )}
+            {emoji}
           </div>
 
-          <div>
-            <h3
-              className="
-              text-white
-              font-semibold
-              text-lg
-              "
-            >
+          <div className="min-w-0">
+            <p className="text-white font-semibold text-sm leading-tight truncate">
               {data.title}
-            </h3>
-
-            <p
-              className="
-              text-xs
-              text-zinc-400
-              "
-            >
-              {data.type}
             </p>
+
+            <span
+              style={{ backgroundColor: data.color }}
+              className="inline-block text-xs font-semibold px-2 py-0.5 rounded mt-1 text-black"
+            >
+              {data.typeKey}
+            </span>
           </div>
         </div>
 
-        <p
-          className="
-          mt-4
-          text-sm
-          text-zinc-300
-          leading-relaxed
-          "
-        >
+        <p className="mt-2 text-xs text-zinc-400 leading-relaxed line-clamp-2">
           {data.description}
         </p>
       </div>
 
-      {/* connections */}
-
       <Handle
         type="target"
         position={Position.Left}
-        className="bg-purple-500!"
+        style={{
+          backgroundColor: data.color,
+          border: "none",
+          width: 10,
+          height: 10,
+        }}
       />
-
       <Handle
         type="source"
         position={Position.Right}
-        className="bg-blue-500!"
+        style={{
+          backgroundColor: data.color,
+          border: "none",
+          width: 10,
+          height: 10,
+        }}
       />
     </div>
   );

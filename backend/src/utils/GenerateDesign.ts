@@ -24,8 +24,8 @@ export const NODE_TYPE_META: Record<
     image: "/icons/database.png",
     displayType: "Database",
   },
-  cache: { color: "#EAB308", image: "/icons/redis.png", displayType: "Cache" },
-  queue: { color: "#EC4899", image: "/icons/queue.png", displayType: "Queue" },
+  cache: { color: "#EAB308", image: "redis.png", displayType: "Cache" },
+  queue: { color: "#EC4899", image: "queue.png", displayType: "Queue" },
   worker: {
     color: "#14B8A6",
     image: "/icons/worker.png",
@@ -55,7 +55,7 @@ export const GenerateDesign = async ({ prompt }: { prompt: string }) => {
 
   try {
     const response = await grok.chat.completions.create({
-      model: "grok-4.3",
+      model: "llama-3.3-70b-versatile",
 
       messages: [
         {

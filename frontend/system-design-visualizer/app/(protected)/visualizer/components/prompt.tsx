@@ -200,10 +200,12 @@ const Prompt = () => {
         </div>
       )}
       {hidePrompt && architecture && (
-        <VisualizerCanvas
-          nodes={architecture.nodes}
-          edges={architecture.edges}
-        />
+        <div className="flex">
+          <VisualizerCanvas
+            nodes={architecture.nodes}
+            edges={architecture.edges}
+          />
+        </div>
       )}
     </>
   );
