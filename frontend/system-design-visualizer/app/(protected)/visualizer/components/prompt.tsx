@@ -1,6 +1,6 @@
 "use client";
 
-import { AiResponse, DataResponse } from "@/app/types/page";
+import { AiResponse, DataResponse } from "@/app/type/page";
 import { ArrowUp, Sparkles } from "lucide-react";
 import { useState } from "react";
 import VisualizerCanvas from "./VisualizerCanvas";
