@@ -40,11 +40,13 @@ export default function VisualizerCanvas({ nodes, edges }: Props) {
 
         <MiniMap />
       </ReactFlow>
-      <InspectorForNodes
-        selectedNode={selectedNode}
-        edges={edges}
-        nodes={nodes}
-      />
+      {selectedNode && (
+        <InspectorForNodes
+          selectedNode={selectedNode}
+          edges={edges}
+          nodes={nodes}
+        />
+      )}
     </div>
   );
 }

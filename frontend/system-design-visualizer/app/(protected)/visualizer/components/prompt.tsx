@@ -1,19 +1,25 @@
 "use client";
 
+import {
+  setStatus,
+  setTitle,
+} from "@/app/redux/slice/project-title-status.slice";
 import { AiResponse, DataResponse } from "@/app/type/page";
 import { ArrowUp, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import VisualizerCanvas from "./VisualizerCanvas";
 
 const Prompt = () => {
   const [prompt, setPrompt] = useState("");
   const [hidePrompt, setHidePrompt] = useState<boolean>(false);
   const [architecture, setArchitecture] = useState<AiResponse>();
-
+  const dispatch = useDispatch();
   const handleSubmit = async () => {
     if (!prompt.trim()) return;
 
     try {
+      dispatch(setStatus("Generating"));
       const response = await fetch("http://localhost:4000/ai/generate", {
         method: "POST",
         credentials: "include",
@@ -28,6 +34,8 @@ const Prompt = () => {
 
       const data: DataResponse = await response.json();
       setArchitecture(data.Response);
+      dispatch(setTitle(data.Response.title));
+      dispatch(setStatus("Active"));
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to generate design");
@@ -35,6 +43,7 @@ const Prompt = () => {
 
       console.log(data);
     } catch (error) {
+      dispatch(setStatus("Failed"));
       console.error(error);
     }
   };

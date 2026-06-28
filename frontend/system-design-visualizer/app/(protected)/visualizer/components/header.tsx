@@ -1,3 +1,4 @@
+"use client";
 import Button from "@/app/components/shared/Button";
 import {
   ArrowBigLeftDash,
@@ -6,8 +7,13 @@ import {
   Share,
   Share2Icon,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const title = useSelector((state) => state.project.title);
+  const status = useSelector((state) => state.project.status);
+
+  console.log(title, status);
   return (
     <header
       className="
@@ -59,7 +65,7 @@ const Header = () => {
               text-zinc-300
               "
             >
-              Project-Title
+              {title}
             </span>
 
             <span
@@ -73,7 +79,7 @@ const Header = () => {
               border-green-500/20
               "
             >
-              Project-Status
+              {status}
             </span>
           </div>
           {/* /TODO api-integration */}

@@ -112,6 +112,7 @@ export default function LoginPage() {
                 <input
                   type="email"
                   placeholder="raj@example.com"
+                  autoComplete="email"
                   className="
                     w-full mt-2
                     bg-black/40
@@ -139,6 +140,7 @@ export default function LoginPage() {
                 <input
                   type="password"
                   placeholder="••••••••"
+                  autoComplete="current-password"
                   className="
                     w-full mt-2
                     bg-black/40
