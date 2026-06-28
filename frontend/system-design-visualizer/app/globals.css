@@ -54,3 +54,23 @@ body {
 
   font-family: var(--font-inter);
 }
+
+.react-flow__controls {
+  background: #18181b;
+  border: 1px solid #27272a;
+}
+
+.react-flow__controls-button {
+  background: #18181b;
+  border-bottom: 1px solid #27272a;
+  color: white;
+}
+
+.react-flow__controls-button:hover {
+  background: #27272a;
+}
+
+.react-flow__minimap {
+  background: #09090b;
+  border: 1px solid #27272a;
+}

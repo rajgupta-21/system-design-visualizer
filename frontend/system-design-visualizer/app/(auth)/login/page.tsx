@@ -33,6 +33,7 @@ export default function LoginPage() {
 
       const response = await fetch("http://localhost:4000/auth/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },

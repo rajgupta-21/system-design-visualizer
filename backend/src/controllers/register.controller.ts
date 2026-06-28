@@ -35,15 +35,14 @@ export const RegisterController = async (req: Request, res: Response) => {
       },
     });
 
-    const token = generateToken({
-      userId: createUser.id,
-      email: createUser.email,
-    });
+    const token = generateToken({ id: createUser.id });
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
+      domain: "localhost",
+      path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

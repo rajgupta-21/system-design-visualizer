@@ -29,6 +29,7 @@ export default function RegisterPage() {
 
       const response = await fetch("http://localhost:4000/auth/register", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -225,9 +226,6 @@ export default function RegisterPage() {
                   hover:opacity-90
                   transition
                 "
-                onClick={() => {
-                  handleRegister();
-                }}
               >
                 Create Account
               </button>

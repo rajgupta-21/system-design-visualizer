@@ -1,20 +1,13 @@
 import { Router } from "express";
+import { authMiddleware } from "../middlewares/decodeToken";
 
 const router = Router();
 
-router.get("/me", (req, res) => {
+router.get("/me", authMiddleware, (req, res) => {
   try {
-    const token = req.cookies.token;
-
-    if (!token) {
-      return res.status(401).json({
-        message: "No session, please login first",
-        action: "failure",
-      });
-    }
-
     return res.status(200).json({
       message: "User is in session",
+      user: req.user,
       action: "success",
     });
   } catch (error) {

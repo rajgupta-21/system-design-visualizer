@@ -1,6 +1,6 @@
 "use client";
 
-import { Background, Controls, MiniMap, ReactFlow } from "@xyflow/react";
+import { Background, Controls, ReactFlow } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
 
@@ -30,6 +30,7 @@ export default function VisualizerCanvas({ nodes, edges }: Props) {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        colorMode="dark"
         fitView
         onNodeClick={handleNodeClick}
         onPaneClick={() => setSelectedNode(null)}
@@ -37,8 +38,6 @@ export default function VisualizerCanvas({ nodes, edges }: Props) {
         <Background />
 
         <Controls />
-
-        <MiniMap />
       </ReactFlow>
       {selectedNode && (
         <InspectorForNodes

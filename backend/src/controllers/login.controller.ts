@@ -31,12 +31,14 @@ export const LoginController = async (req: Request, res: Response) => {
         .json({ message: "worng credentials", action: "failure" });
     }
 
-    const token = generateToken(userExists);
+    const token = generateToken({ id: userExists.id });
 
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
+      domain: "localhost",
+      path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -47,7 +49,7 @@ export const LoginController = async (req: Request, res: Response) => {
     //   html: verificationEmailTemplate(verifyUrl),
     // });
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "User Logged successfully",
     });
   } catch (error) {

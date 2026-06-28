@@ -5,7 +5,7 @@ import {
   setTitle,
 } from "@/app/redux/slice/project-title-status.slice";
 import { AiResponse, DataResponse } from "@/app/type/page";
-import { ArrowUp, Sparkles } from "lucide-react";
+import { ArrowUp, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import VisualizerCanvas from "./VisualizerCanvas";
@@ -14,12 +14,15 @@ const Prompt = () => {
   const [prompt, setPrompt] = useState("");
   const [hidePrompt, setHidePrompt] = useState<boolean>(false);
   const [architecture, setArchitecture] = useState<AiResponse>();
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const handleSubmit = async () => {
     if (!prompt.trim()) return;
 
     try {
+      setLoading(true);
       dispatch(setStatus("Generating"));
+      dispatch(setTitle("Generating"));
       const response = await fetch("http://localhost:4000/ai/generate", {
         method: "POST",
         credentials: "include",
@@ -30,9 +33,10 @@ const Prompt = () => {
           prompt,
         }),
       });
-      setHidePrompt(true);
 
       const data: DataResponse = await response.json();
+      setLoading(false);
+      setHidePrompt(true);
       setArchitecture(data.Response);
       dispatch(setTitle(data.Response.title));
       dispatch(setStatus("Active"));
@@ -43,6 +47,7 @@ const Prompt = () => {
 
       console.log(data);
     } catch (error) {
+      setLoading(false);
       dispatch(setStatus("Failed"));
       console.error(error);
     }
@@ -151,24 +156,31 @@ const Prompt = () => {
 
               <button
                 onClick={handleSubmit}
+                disabled={loading}
                 className="
-            absolute
-            bottom-4
-            right-4
-            h-11
-            w-11
-            rounded-xl
-            bg-gradient-to-r
-            from-purple-500
-            to-blue-500
-            flex
-            items-center
-            justify-center
-            hover:scale-105
-            transition
-            "
+    absolute
+    bottom-4
+    right-4
+    h-11
+    w-11
+    rounded-xl
+    bg-gradient-to-r
+    from-purple-500
+    to-blue-500
+    flex
+    items-center
+    justify-center
+    hover:scale-105
+    transition
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+  "
               >
-                <ArrowUp size={20} />
+                {loading ? (
+                  <Loader2 size={20} className="animate-spin" />
+                ) : (
+                  <ArrowUp size={20} />
+                )}
               </button>
             </div>
 
