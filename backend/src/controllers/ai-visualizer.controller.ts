@@ -32,7 +32,7 @@ export const AIGenerate = async (req: Request, res: Response) => {
 
         nodes: {
           create: GenerateResponse.nodes.map((node: any) => ({
-            id: node.id,
+            flowId: node.id,
 
             type: node.type,
 
@@ -44,7 +44,7 @@ export const AIGenerate = async (req: Request, res: Response) => {
 
         edges: {
           create: GenerateResponse.edges.map((edge: any) => ({
-            id: edge.id,
+            flowId: edge.id,
 
             source: edge.source,
 

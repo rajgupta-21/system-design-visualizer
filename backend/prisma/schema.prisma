@@ -8,40 +8,73 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  isVerified Boolean  @default(false)
-  designs    Design[]
-  createdAt  DateTime @default(now())
+  id String @id @default(uuid())
+
+  name String
+
+  email String @unique
+
+  password String
+
+  isVerified Boolean @default(false)
+
+  designs Design[]
+
+  createdAt DateTime @default(now())
 }
 
 model Design {
-  id        String   @id @default(uuid())
-  title     String
-  ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id])
-  nodes     Node[]
-  edges     Edge[]
+  id String @id @default(uuid())
+
+  title String
+
+  description String?
+
+  previewImage String?
+
+  ownerId String
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  nodes Node[]
+
+  edges Edge[]
+
   createdAt DateTime @default(now())
 }
 
 model Node {
-  id       String @id
-  type     String
+  id String @id @default(uuid())
+
+  // reactflow id
+  flowId String
+
+  type String
+
   position Json
-  data     Json
+
+  data Json
+
   designId String
-  design   Design @relation(fields: [designId], references: [id])
+
+  design Design @relation(fields: [designId], references: [id], onDelete: Cascade)
 }
 
 model Edge {
-  id       String  @id
-  source   String
-  target   String
-  type     String?
+  id String @id @default(uuid())
+
+  // reactflow edge id
+  flowId String
+
+  source String
+
+  target String
+
+  type String?
+
   animated Boolean @default(false)
+
   designId String
-  design   Design  @relation(fields: [designId], references: [id])
+
+  design Design @relation(fields: [designId], references: [id], onDelete: Cascade)
 }

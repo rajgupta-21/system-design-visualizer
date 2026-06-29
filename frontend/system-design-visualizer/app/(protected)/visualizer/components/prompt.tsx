@@ -223,6 +223,9 @@ const Prompt = () => {
       {hidePrompt && architecture && (
         <div className="flex">
           <VisualizerCanvas
+            onSnapshot={(image) => {
+              console.log(image);
+            }}
             nodes={architecture.nodes}
             edges={architecture.edges}
           />

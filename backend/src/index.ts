@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import GenerateRoute from "./routes/ai-generate.route";
+import DesignRoute from "./routes/get-design.route";
 import LoginRoute from "./routes/login.route";
 import RegisterRoute from "./routes/register.route";
 import SessionRouter from "./routes/session.route";
@@ -30,6 +31,8 @@ app.use("/auth", RegisterRoute);
 app.use("/auth", SessionRouter);
 /* Design generate route*/
 app.use("/ai", GenerateRoute);
+/*Get Design Route*/
+app.use("/user", DesignRoute);
 
 app.get("/", (_, res) => {
   res.json("server is running");
