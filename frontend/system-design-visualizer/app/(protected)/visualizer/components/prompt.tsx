@@ -15,6 +15,7 @@ const Prompt = () => {
   const [hidePrompt, setHidePrompt] = useState<boolean>(false);
   const [architecture, setArchitecture] = useState<AiResponse>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [designId, setDesignId] = useState<string | undefined>("");
   const dispatch = useDispatch();
   const handleSubmit = async () => {
     if (!prompt.trim()) return;
@@ -38,6 +39,7 @@ const Prompt = () => {
       setLoading(false);
       setHidePrompt(true);
       setArchitecture(data.Response);
+      setDesignId(data.designId);
       dispatch(setTitle(data.Response.title));
       dispatch(setStatus("Active"));
 

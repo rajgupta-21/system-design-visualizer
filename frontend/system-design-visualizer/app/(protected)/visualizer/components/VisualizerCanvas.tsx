@@ -1,18 +1,17 @@
 "use client";
 
-import { Background, Controls, ReactFlow } from "@xyflow/react";
-
+import { Background, ReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 import { toPng } from "html-to-image";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import ArchitectureNode from "./architectureNode";
 import InspectorForNodes from "./InsectorForNodes";
 
 interface Props {
-  nodes: [];
-  edges: [];
+  nodes: any[];
+  edges: any[];
   onSnapshot?: (image: string) => void;
 }
 
@@ -21,50 +20,72 @@ const nodeTypes = {
 };
 
 export default function VisualizerCanvas({ nodes, edges, onSnapshot }: Props) {
-  const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedNode, setSelectedNode] = useState<any>(null);
 
-  const flowRef = useRef<HTMLDivElement>(null);
+  const graphRef = useRef<HTMLDivElement>(null);
+
+  const generateSnapshot = async () => {
+    if (!graphRef.current) return;
+
+    try {
+      const image = await toPng(graphRef.current, {
+        backgroundColor: "#050505",
+        quality: 1,
+        pixelRatio: 2,
+
+        filter: (node) => {
+          const className = node.className;
+
+          if (
+            typeof className === "string" &&
+            (className.includes("react-flow__controls") ||
+              className.includes("react-flow__attribution"))
+          ) {
+            return false;
+          }
+
+          return true;
+        },
+      });
+
+      console.log("snapshot generated");
+
+      onSnapshot?.(image);
+    } catch (error) {
+      console.log("snapshot failed", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!nodes.length) return;
+
+    const timer = setTimeout(() => {
+      generateSnapshot();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [nodes]);
 
   const handleNodeClick = useCallback((_event: any, node: any) => {
     setSelectedNode(node);
   }, []);
 
-  const generateSnapshot = async () => {
-    if (!flowRef.current) return;
-
-    try {
-      const image = await toPng(flowRef.current, {
-        backgroundColor: "#050505",
-        quality: 0.95,
-      });
-
-      console.log(image);
-
-      // send image to parent/backend
-      onSnapshot?.(image);
-    } catch (error) {
-      console.error("Snapshot failed", error);
-    }
-  };
-
   return (
     <div
       className="
-h-[93vh]
-w-full
-bg-black
-flex
-relative
-"
+      h-[93vh]
+      w-full
+      bg-black
+      flex
+      relative
+      "
     >
-      {/* React flow capture area */}
-
       <div
-        ref={flowRef}
+        ref={graphRef}
         className="
-flex-1
-h-full
-"
+        flex-1
+        h-full
+        "
       >
         <ReactFlow
           nodes={nodes}
@@ -76,36 +97,14 @@ h-full
           onPaneClick={() => setSelectedNode(null)}
         >
           <Background />
-
-          <Controls />
         </ReactFlow>
       </div>
-
-      {/* Snapshot button */}
-
-      <button
-        onClick={generateSnapshot}
-        className="
-absolute
-top-5
-right-5
-z-20
-px-4
-py-2
-rounded-xl
-bg-purple-600
-hover:bg-purple-700
-transition
-"
-      >
-        Save Preview
-      </button>
 
       {selectedNode && (
         <InspectorForNodes
           selectedNode={selectedNode}
-          edges={edges}
           nodes={nodes}
+          edges={edges}
         />
       )}
     </div>

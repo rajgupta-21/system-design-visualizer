@@ -34,6 +34,8 @@ model Design {
 
   ownerId String
 
+  image  String?
+
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
   nodes Node[]
