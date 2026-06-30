@@ -46,6 +46,7 @@ export default function Sidebar() {
         h-screen
         transition-all
         duration-300
+        h-screen
         
         ${isOpen ? "translate-x-0 w-72" : "-translate-x-full w-0"}
 
@@ -59,7 +60,7 @@ export default function Sidebar() {
         {isOpen && (
           <div>
             {/* Header */}
-            <div className="flex justify-between items-center mb-10">
+            <div className="flex justify-between items-center mb-10 ">
               <Link
                 href="/dashboard"
                 className="

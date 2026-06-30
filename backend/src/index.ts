@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import GenerateRoute from "./routes/ai-generate.route";
+import ChangePassRoute from "./routes/change-password.route";
 import DesignRoute from "./routes/get-design.route";
+import GetUserRoute from "./routes/get-user.route";
 import LoginRoute from "./routes/login.route";
 import RegisterRoute from "./routes/register.route";
 import saveSnapshotRoute from "./routes/savesnapshot.route";
@@ -46,7 +48,10 @@ app.use("/ai", GenerateRoute);
 app.use("/user", DesignRoute);
 /*Save snapshot for design*/
 app.use("/user", saveSnapshotRoute);
-
+/*Get User Route*/
+app.use("/auth", GetUserRoute);
+/*Change pass Route*/
+app.use("/user", ChangePassRoute);
 app.get("/", (_, res) => {
   res.json("server is running");
 });

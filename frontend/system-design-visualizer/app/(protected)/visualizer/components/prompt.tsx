@@ -5,7 +5,7 @@ import {
   setStatus,
   setTitle,
 } from "@/app/redux/slice/project-title-status.slice";
-import { AiResponse, DataResponse } from "@/app/type/page";
+import { AiResponse, DataResponse } from "@/app/types/page";
 import { ArrowUp, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -48,7 +48,6 @@ const Prompt = () => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to generate design");
       }
-
     } catch (error) {
       setLoading(false);
       dispatch(setStatus("Failed"));
@@ -226,11 +225,19 @@ const Prompt = () => {
       {hidePrompt && architecture && (
         <div className="flex">
           <VisualizerCanvas
-            onSnapshot={(image) => {
-              console.log(image);
-            }}
-            nodes={architecture.nodes}
-            edges={architecture.edges}
+            nodes={architecture.nodes.map((node) => ({
+              id: node.flowId,
+              type: node.type,
+              position: node.position,
+              data: node.data,
+            }))}
+            edges={architecture.edges.map((edge) => ({
+              id: edge.flowId,
+              source: edge.source,
+              target: edge.target,
+              type: edge.type,
+              animated: edge.animated,
+            }))}
           />
         </div>
       )}

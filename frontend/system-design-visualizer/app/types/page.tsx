@@ -1,10 +1,13 @@
 export interface NodeData {
   title: string;
   description: string;
+
   type: string;
   typeKey: string;
+
   color: string;
-  image: string;
+
+  image?: string;
 }
 
 export interface FlowNode {
@@ -35,13 +38,15 @@ export interface FlowEdge {
 }
 
 export interface AiResponse {
-  id?: string;
+  id: string;
 
   title: string;
 
   description?: string;
 
   previewImage?: string;
+
+  image?: string;
 
   nodes: FlowNode[];
 
@@ -55,7 +60,27 @@ export interface DataResponse {
 
   Response: AiResponse;
 
-  designId?: string;
+  designId: string;
+
+  action: "success" | "failure";
+}
+
+export interface User {
+  id: string;
+
+  name: string;
+
+  email: string;
+
+  isVerified: boolean;
+
+  createdAt: string;
+}
+
+export interface DataResponseForUser {
+  message: string;
+
+  user: User;
 
   action: "success" | "failure";
 }

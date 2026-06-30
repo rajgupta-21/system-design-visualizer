@@ -1,4 +1,4 @@
-import { NodeData } from "@/app/type/page";
+import { NodeData } from "@/app/types/page";
 
 interface SelectedNode {
   id: string;

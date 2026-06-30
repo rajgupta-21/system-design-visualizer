@@ -4,12 +4,14 @@ interface ProjectState {
   title: string;
   status: string;
   designId: string | null;
+  userName: string | null;
 }
 
 const initialState: ProjectState = {
-  title: "",
-  status: "",
+  title: "Title",
+  status: "Status",
   designId: null,
+  userName: "",
 };
 
 const projectSlice = createSlice({
@@ -27,16 +29,20 @@ const projectSlice = createSlice({
     setDesignId: (state, action: PayloadAction<string>) => {
       state.designId = action.payload;
     },
+    setUserName: (state, action: PayloadAction<string>) => {
+      state.userName = action.payload;
+    },
 
     clearDesign: (state) => {
       state.designId = null;
       state.title = "";
       state.status = "";
+      state.userName = "";
     },
   },
 });
 
-export const { setTitle, setStatus, setDesignId, clearDesign } =
+export const { setTitle, setStatus, setDesignId, setUserName, clearDesign } =
   projectSlice.actions;
 
 export default projectSlice.reducer;

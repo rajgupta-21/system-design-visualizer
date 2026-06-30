@@ -1,4 +1,24 @@
+"use client";
+import { setUserName } from "@/app/redux/slice/project-title-status.slice";
+import { DataResponseForUser, User } from "@/app/types/page";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
 export default function WelcomeCard() {
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<User | undefined>();
+  const handleDetailsOfUser = async () => {
+    const response = await fetch("http://localhost:4000/auth/user", {
+      method: "GET",
+      credentials: "include",
+    });
+    const data: DataResponseForUser = await response.json();
+    setUser(data.user);
+    dispatch(setUserName(data.user.name));
+  };
+  useEffect(() => {
+    handleDetailsOfUser();
+  }, []);
   return (
     <div
       className="
@@ -17,7 +37,7 @@ text-3xl
 font-bold
 "
       >
-        Welcome back, Raj 👋
+        Welcome back, {user?.name} 👋
       </h1>
 
       <p className="text-zinc-400 mt-3">
