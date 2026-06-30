@@ -6,6 +6,7 @@ import "@xyflow/react/dist/style.css";
 import { toPng } from "html-to-image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useSelector } from "react-redux";
 import ArchitectureNode from "./architectureNode";
 import InspectorForNodes from "./InsectorForNodes";
 
@@ -21,8 +22,22 @@ const nodeTypes = {
 
 export default function VisualizerCanvas({ nodes, edges, onSnapshot }: Props) {
   const [selectedNode, setSelectedNode] = useState<any>(null);
+  const selectDesignId = useSelector((state) => state.project.designId);
 
   const graphRef = useRef<HTMLDivElement>(null);
+
+  const handleSnapshotSave = async (image: string) => {
+    const response = await fetch("http://localhost:4000/user/snapshot", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ image, designId: selectDesignId }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
 
   const generateSnapshot = async () => {
     if (!graphRef.current) return;
@@ -30,8 +45,8 @@ export default function VisualizerCanvas({ nodes, edges, onSnapshot }: Props) {
     try {
       const image = await toPng(graphRef.current, {
         backgroundColor: "#050505",
-        quality: 1,
-        pixelRatio: 2,
+        quality: 0.8,
+        pixelRatio: 1,
 
         filter: (node) => {
           const className = node.className;
@@ -49,6 +64,7 @@ export default function VisualizerCanvas({ nodes, edges, onSnapshot }: Props) {
       });
 
       console.log("snapshot generated");
+      handleSnapshotSave(image);
 
       onSnapshot?.(image);
     } catch (error) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { ExternalLink, FolderOpen, Plus, Sparkles, Trash2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -10,6 +11,7 @@ interface Design {
   description: string;
   image?: string;
   createdAt: string;
+  previewImage: string;
 }
 
 export default function DesignsPage() {
@@ -225,10 +227,12 @@ relative
 overflow-hidden
 "
             >
-              {design.image ? (
-                <img
-                  src={design.image}
+              {design.previewImage ? (
+                <Image
+                  src={design.previewImage}
                   alt={design.title}
+                  width={10}
+                  height={10}
                   className="
 w-full
 h-full

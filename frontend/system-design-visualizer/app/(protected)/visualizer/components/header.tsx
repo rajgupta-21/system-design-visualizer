@@ -13,7 +13,6 @@ const Header = () => {
   const title = useSelector((state) => state.project.title);
   const status = useSelector((state) => state.project.status);
 
-  console.log(title, status);
   return (
     <header
       className="

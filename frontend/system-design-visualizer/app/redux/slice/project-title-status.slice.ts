@@ -3,18 +3,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface ProjectState {
   title: string;
   status: string;
+  designId: string | null;
 }
 
 const initialState: ProjectState = {
-  title: "Project Title",
-  status: "Status",
+  title: "",
+  status: "",
+  designId: null,
 };
 
 const projectSlice = createSlice({
   name: "project",
-
   initialState,
-
   reducers: {
     setTitle: (state, action: PayloadAction<string>) => {
       state.title = action.payload;
@@ -23,9 +23,20 @@ const projectSlice = createSlice({
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload;
     },
+
+    setDesignId: (state, action: PayloadAction<string>) => {
+      state.designId = action.payload;
+    },
+
+    clearDesign: (state) => {
+      state.designId = null;
+      state.title = "";
+      state.status = "";
+    },
   },
 });
 
-export const { setTitle, setStatus } = projectSlice.actions;
+export const { setTitle, setStatus, setDesignId, clearDesign } =
+  projectSlice.actions;
 
 export default projectSlice.reducer;

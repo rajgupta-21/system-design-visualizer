@@ -6,6 +6,7 @@ import GenerateRoute from "./routes/ai-generate.route";
 import DesignRoute from "./routes/get-design.route";
 import LoginRoute from "./routes/login.route";
 import RegisterRoute from "./routes/register.route";
+import saveSnapshotRoute from "./routes/savesnapshot.route";
 import SessionRouter from "./routes/session.route";
 dotenv.config();
 
@@ -14,7 +15,17 @@ if (!Port) {
   process.exit(0);
 }
 const app = express();
-app.use(express.json());
+app.use(
+  express.json({
+    limit: "10mb",
+  }),
+);
+app.use(
+  express.urlencoded({
+    limit: "10mb",
+    extended: true,
+  }),
+);
 app.use(cookieParser());
 app.use(
   cors({
@@ -33,6 +44,8 @@ app.use("/auth", SessionRouter);
 app.use("/ai", GenerateRoute);
 /*Get Design Route*/
 app.use("/user", DesignRoute);
+/*Save snapshot for design*/
+app.use("/user", saveSnapshotRoute);
 
 app.get("/", (_, res) => {
   res.json("server is running");

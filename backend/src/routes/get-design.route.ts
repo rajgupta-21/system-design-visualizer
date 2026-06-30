@@ -30,6 +30,7 @@ router.get("/designs", authMiddleware, async (req: Request, res: Response) => {
         createdAt: true,
         nodes: true,
         edges: true,
+        previewImage: true,
       },
     });
 
